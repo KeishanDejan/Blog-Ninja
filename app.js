@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 // express app
 const app = express();
@@ -11,6 +12,11 @@ app.listen(3000, () => {
     console.log("Server has started...");
 })
 
+
+// middlewares and static files
+app.use(express.static('public'))
+app.use(morgan('dev'));
+
 // response for "/"
 app.get('/', (req, res) => {
     const blogs = [
@@ -21,14 +27,12 @@ app.get('/', (req, res) => {
     // res.send('<h1>Hello Ninjas</h1>');
     // res.sendFile('./views/index.html', {root: __dirname});
     res.render('index', { title: 'Home', blogs });
-    console.log(req.url);
 });
 
 // response for '/about'
 app.get('/about', (req, res) => {
     // res.send('<h1>about Ninjas</h1>');
     res.render('about', { title: 'About' })
-    console.log(req.url);
 });
 
 // redirect
@@ -44,5 +48,4 @@ app.get('/blogs/create', (req,res) => {
 // 404 page
 app.use((req, res) => {
     res.status(404).render('404', { title: '404' })
-    console.log(req.url);
 })
