@@ -39,6 +39,24 @@ app.get('/blogs', (req,res) => {
         })
 })
 
+
+
+// response for '/about'
+app.get('/about', (req, res) => {
+    // res.send('<h1>about Ninjas</h1>');
+    res.render('about', { title: 'About' })
+});
+
+// redirect
+app.get('/about-us', (req, res) => {
+    res.redirect('/about');
+});
+
+// response for '/blog/create'
+app.get('/blogs/create', (req,res) => {
+    res.render('create', { title: 'Create a new blog' })
+});
+
 app.post('/blogs', (req,res) => {
     const blog = new Blog(req.body);
 
@@ -63,22 +81,17 @@ app.get('/blogs/:id', (req, res) => {
         })
 })
 
-// response for '/about'
-app.get('/about', (req, res) => {
-    // res.send('<h1>about Ninjas</h1>');
-    res.render('about', { title: 'About' })
-});
-
-// redirect
-app.get('/about-us', (req, res) => {
-    res.redirect('/about');
-});
-
-// response for '/blog/create'
-app.get('/blogs/create', (req,res) => {
-    res.render('create', { title: 'Create a new blog' })
-    console.log(req)
-});
+app.delete('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    
+    Blog.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/blogs' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
 // 404 page
 app.use((req, res) => {
