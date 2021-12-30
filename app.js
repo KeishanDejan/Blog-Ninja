@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Blog = require('./models/blogs')
+const Blog = require('./models/blogs');
 
 // express app
 const app = express();
@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 app.get('/blogs', (req,res) => {
     Blog.find().sort({ createdAt : -1 })
         .then((result) => {
-            res.render('index', { title: 'All Blogs', blogs: result})
+            res.render('index', { title: 'All Blogs', blog: result})
         })
         .catch((err) => {
             console.log(err)
@@ -52,6 +52,17 @@ app.post('/blogs', (req,res) => {
     console.log(req.body)
 })
 
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id
+    Blog.findById(id)
+        .then((result) => {
+            res.render('details', {blog: result, title: 'Blog details'})
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
 // response for '/about'
 app.get('/about', (req, res) => {
     // res.send('<h1>about Ninjas</h1>');
@@ -65,8 +76,9 @@ app.get('/about-us', (req, res) => {
 
 // response for '/blog/create'
 app.get('/blogs/create', (req,res) => {
-    res.render('create.ejs', { title: 'Create a new blog' })
-})
+    res.render('create', { title: 'Create a new blog' })
+    console.log(req)
+});
 
 // 404 page
 app.use((req, res) => {
