@@ -3,7 +3,7 @@ A Youtube Tutorial based Blogging website.
 
 ### Server Base
 Node.js server is being used in this projects.
-Mongo DataBase is alos being used.
+Mongo DataBase is also being used.
 
 ### How to run the server.
 If you run the app.js with Node or Nodemon you can access the Blogging page with localhost:3000/
